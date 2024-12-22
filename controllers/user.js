@@ -72,18 +72,16 @@ async function sendEmail(url, type, email, additionalData = {}) {
 
     console.log("📨 Configuring the transporter...");
     const transporter = nodemailer.createTransport({
-        host: "smtp.ethereal.email",
-        port: 587,
-        secure: false,
+        service: "gmail",
         auth: {
-            user: process.env.SMTP_USER || "brandt.cormier@ethereal.email",
-            pass: process.env.SMTP_PASS || "8p8X5UBsnF5qp5TpH4",
+            user: process.env.SMTP_USER || "muhammadmohsin1016@gmail.com",
+            pass: process.env.SMTP_PASS || "puci zizd cskz gpwm",
         },
     });
     console.log("✅ Transporter configured successfully");
 
     const mailOptions = {
-        from: "brandt.cormier@ethereal.email",
+        from: "muhammadmohsin1016@gmail.com",
         to: email,
         subject: subject,
         html: htmlTemplate,
