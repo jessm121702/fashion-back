@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Template</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        .email-container {
+            max-width: 600px;
+            margin: 20px auto;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .email-header {
+            background-color: #4caf50;
+            color: #ffffff;
+            text-align: center;
+            padding: 20px;
+        }
+        .email-header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .email-content {
+            padding: 20px;
+            color: #333333;
+        }
+        .email-content h2 {
+            color: #4caf50;
+            font-size: 20px;
+            margin-top: 0;
+        }
+        .email-content p {
+            line-height: 1.6;
+            margin: 10px 0;
+        }
+        .email-footer {
+            background-color: #f4f4f9;
+            text-align: center;
+            padding: 10px;
+            font-size: 12px;
+            color: #888888;
+        }
+    </style>
+</head>
+<body>
+    <div class="email-container">
+        <div class="email-header">
+            <h1>You're Invited!</h1>
+        </div>
+        <div class="email-content">
+            <h2>Dear {{CLIENT}},</h2>
+            <p>We are thrilled to announce a special event: <strong>{{EVENT}}</strong>.</p>
+            <p>{{BODY}}</p>
+            <p>We hope you can join us for this memorable occasion. Feel free to contact us if you have any questions or need further details.</p>
+            <p>Looking forward to seeing you there!</p>
+        </div>
+        <div class="email-footer">
+            <p>Thank you for being part of our community.</p>
+            <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

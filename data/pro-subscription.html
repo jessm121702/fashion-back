@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subscription Email</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #2196F3;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .content {
+            padding: 20px;
+        }
+        .content h2 {
+            color: #2196F3;
+        }
+        .content p {
+            line-height: 1.6;
+        }
+        .button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #2196F3;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            background: #f4f4f9;
+            font-size: 12px;
+            color: #777;
+        }
+        .footer a {
+            color: #2196F3;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <!-- Pro Subscription Template -->
+    <div class="container">
+        <div class="header">
+            <h1>Subscription Confirmation</h1>
+        </div>
+        <div class="content">
+            <h2>Hello ,</h2>
+            <p>You have subscribed. Please click the link below to access the CSV upload portal:</p>
+            <a href={{URL}} class="button">Access CSV Upload Portal</a>
+        </div>
+        <div class="footer">
+            <p>If you have any questions, feel free to <a href="mailto:support@fashion.com">contact us</a>.</p>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,23 @@
+{
+  "development": {
+    "username": "root",
+    "password": "redhat",
+    "database": "fashion",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "test": {
+    "username": "root",
+    "password": "redhat",
+    "database": "fashion",
+    "host": "localhost",
+    "dialect": "mysql"
+  },
+  "production": {
+    "username": "root",
+    "password": "redhat",
+    "database": "fashion",
+    "host": "localhost",
+    "dialect": "mysql"
+  }
+}
