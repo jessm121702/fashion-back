@@ -216,9 +216,7 @@ exports.Subscription = async (req, res) => {
                     const subscriptionStartDate = new Date(subscription.start_date * 1000);
                     const subscriptionEndDate = new Date(subscription.current_period_end * 1000);
                     const subscriptionId = subscription.id;
-
                     if (subscriptionStatus === "active") {
-
                         await userInstance.update({
                             subscription: subscriptionType,
                             sub_status: subscriptionStatus,
@@ -228,7 +226,6 @@ exports.Subscription = async (req, res) => {
                             email_limit: emailLimit,
                             email_sent: 0,
                         });
-
                         const invoice = await stripe.invoices.create({
                             customer: userInstance.stripeCustomerId,
                             auto_advance: true,
@@ -236,16 +233,11 @@ exports.Subscription = async (req, res) => {
                         await stripe.invoices.finalizeInvoice(invoice.id);
                         const subId = userInstance.sub_id;
                         console.log("🦀🦀 success of subscription", subId);
-
                         const hashedSubId = await hashSubId(subId);
                         console.log(" success of subscription", hashedSubId);
-
                         const url = `http://localhost:3000/myportal?sub_id=${hashedSubId}&email=${encodeURIComponent(email)}`;
-
                         console.log("url 🔗🔗 ", url, email, subId, hashedSubId);
-
                         await sendEmail(url, subscriptionType, email);
-
                         clearInterval(intervalId);
                     } else {
                         console.log(`Subscription is not active yet. Current status: ${subscriptionStatus}`);
