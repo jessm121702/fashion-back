@@ -235,7 +235,7 @@ exports.Subscription = async (req, res) => {
                         console.log("🦀🦀 success of subscription", subId);
                         const hashedSubId = await hashSubId(subId);
                         console.log(" success of subscription", hashedSubId);
-                        const url = `http://localhost:3000/myportal?sub_id=${hashedSubId}&email=${encodeURIComponent(email)}`;
+                        const url = `https://fashion-front-kmi7.vercel.app/myportal?sub_id=${hashedSubId}&email=${encodeURIComponent(email)}`;
                         console.log("url 🔗🔗 ", url, email, subId, hashedSubId);
                         await sendEmail(url, subscriptionType, email);
                         clearInterval(intervalId);
