@@ -4,6 +4,7 @@ const path = require("path");
 const fs = require("fs");
 const bcrypt = require("bcrypt");
 const user = require("../models/user");
+const jwt = require('jsonwebtoken');
 const nodemailer = require("nodemailer");
 
 async function hashSubId(subId) {
@@ -322,5 +323,98 @@ exports.uploadCSV = async (req, res) => {
     } catch (error) {
         console.error("❌ Error occurred while sending emails:", error);
         res.status(500).json({ message: "Failed to send emails." });
+    }
+};
+
+
+// Signup API
+exports.signup = async (req, res) => {
+    const { firstName, lastName, email, password } = req.body;
+    console.log("🚀 Signup request received", { firstName, lastName, email });
+  
+    try {
+      // Check if the user already exists
+      console.log("🔍 Checking if user already exists: ", email);
+      const existingUser = await user.findOne({ where: { email } });
+      if (existingUser) {
+        console.log("⚠️ User already exists: ", email);
+        return res.status(400).json({ message: 'User already exists' });
+      }
+  
+      // Hash the password
+      console.log("🔒 Hashing password for: ", email);
+      const hashedPassword = await bcrypt.hash(password, 10);
+  
+      // Create a new user
+      console.log("✨ Creating new user: ", email);
+      const User = await user.create({
+        firstName,
+        lastName,
+        email,
+        password: hashedPassword,
+      });
+  
+      console.log("✅ User created successfully: ", email);
+      res.status(201).json({ message: 'User created successfully', User });
+    } catch (error) {
+      console.log("❌ Error during signup: ", error);
+      res.status(500).json({ message: 'Something went wrong', error });
+    }
+  };
+  
+  // Login API
+  exports.login = async (req, res) => {
+    const { email, password } = req.body;
+    console.log("🚀 Login request received", { email });
+  
+    try {
+      // Check if the user exists
+      console.log("🔍 Checking if user exists: ", email);
+      const User = await user.findOne({ where: { email } });
+      if (!User) {
+        console.log("⚠️ User not found: ", email);
+        return res.status(404).json({ message: 'User not found' });
+      }
+  
+      // Compare the password
+      console.log("🔑 Comparing password for: ", email);
+      const isPasswordValid = await bcrypt.compare(password, User.password);
+      if (!isPasswordValid) {
+        console.log("❌ Invalid credentials for: ", email);
+        return res.status(401).json({ message: 'Invalid credentials' });
+      }
+  
+      // Generate a JWT token
+      console.log("🔐 Generating JWT token for: ", email);
+      const token = jwt.sign({ id: User.id, email: User.email }, process.env.JWT_SECRET, {
+        expiresIn: '1h',
+      });
+  
+      // Update the last login time
+      console.log("⏰ Updating last login time for: ", email);
+      User.lastLogin = new Date();
+      await User.save();
+  
+      console.log("✅ Login successful for: ", email);
+      res.status(200).json({ message: 'Login successful', token });
+    } catch (error) {
+      console.log("❌ Error during login: ", error);
+      res.status(500).json({ message: 'Something went wrong', error });
+    }
+  };
+  
+  exports.isAuthenticated = (req, res, next) => {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+        return res.status(401).json({ message: "Unauthorized: No token provided" });
+    }
+
+    try {
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        req.user = decoded;
+        next(); // Proceed to the next middleware or route handler
+    } catch (error) {
+        return res.status(401).json({ message: "Unauthorized: Invalid token" });
     }
 };
