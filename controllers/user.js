@@ -395,13 +395,27 @@ exports.signup = async (req, res) => {
       User.lastLogin = new Date();
       await User.save();
   
+      // Exclude sensitive information from the response
+      const userData = {
+        id: User.id,
+        email: User.email,
+        name: User.name,
+        role: User.role, // Include only relevant fields
+        lastLogin: User.lastLogin,
+      };
+  
       console.log("✅ Login successful for: ", email);
-      res.status(200).json({ message: 'Login successful', token });
+      res.status(200).json({ 
+        message: 'Login successful', 
+        token, 
+        user: userData // Send only the safe subset of user data 
+      });
     } catch (error) {
       console.log("❌ Error during login: ", error);
       res.status(500).json({ message: 'Something went wrong', error });
     }
   };
+  
   
   exports.isAuthenticated = (req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1];
