@@ -22,6 +22,10 @@ module.exports = {
         allowNull: false,
         unique: true
       },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
       subscription: {
         type: Sequelize.STRING,
         allowNull: true
@@ -48,6 +52,15 @@ module.exports = {
       },
       email_sent: {
         type: Sequelize.INTEGER,
+        allowNull: true
+      },
+      isActive: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: true
+      },
+      lastLogin: {
+        type: Sequelize.DATE,
         allowNull: true
       },
       createdAt: {
