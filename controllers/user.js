@@ -82,7 +82,7 @@ async function sendEmail(url, type, email, additionalData = {}) {
     console.log("✅ Transporter configured successfully");
 
     const mailOptions = {
-        from: "muhammadmohsin1016@gmail.com",
+        from: "contact@styloire.com",
         to: email,
         subject: subject,
         html: htmlTemplate,
