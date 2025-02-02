@@ -64,6 +64,7 @@ async function sendEmail(url, type, email, additionalData = {}) {
         htmlTemplate = htmlTemplate
             .replace("{{CLIENT}}", additionalData.client || "")
             .replace("{{EVENT}}", additionalData.event || "")
+            .replace("{{EMAIL}}", additionalData.userEmail || "")
             .replace("{{BODY}}", additionalData.body || "");
     } else {
         throw new Error(`Unsupported email type: ${type}`);
@@ -79,10 +80,10 @@ async function sendEmail(url, type, email, additionalData = {}) {
             pass: process.env.SMTP_PASS || "puci zizd cskz gpwm",
         },
     });
-    console.log("✅ Transporter configured successfully");
+    console.log("✅ Transporter configured successfully" , additionalData.userEmail );
 
     const mailOptions = {
-        from: "contact@styloire.com",
+        from: additionalData.userEmail || "muhammadmohsin1016@gmail.com",
         to: email,
         subject: subject,
         html: htmlTemplate,
@@ -306,12 +307,11 @@ exports.uploadCSV = async (req, res) => {
         }
 
         console.log("✅ User subscription is active. Proceeding to send emails...");
-
         console.log("🚀 Sending emails to the following addresses:", emails);
         await Promise.all(
             emails.map(async (recipientEmail) => {
                 console.log(`📤 Preparing email for: ${recipientEmail}`);
-                await sendEmail("", "Custom", recipientEmail, { client, event, subject, body });
+                await sendEmail("", "Custom", recipientEmail, { client, event, subject, body , userEmail});
             })
         );
 
@@ -326,8 +326,6 @@ exports.uploadCSV = async (req, res) => {
     }
 };
 
-
-// Signup API
 exports.signup = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     console.log("🚀 Signup request received", { firstName, lastName, email });
@@ -362,7 +360,6 @@ exports.signup = async (req, res) => {
     }
   };
   
-  // Login API
   exports.login = async (req, res) => {
     const { email, password } = req.body;
     console.log("🚀 Login request received", { email });
@@ -415,7 +412,6 @@ exports.signup = async (req, res) => {
       res.status(500).json({ message: 'Something went wrong', error });
     }
   };
-  
   
   exports.isAuthenticated = (req, res, next) => {
     const token = req.headers.authorization?.split(" ")[1];
