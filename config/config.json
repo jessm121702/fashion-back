@@ -2,8 +2,8 @@
   "development": {
     "username": "admin",
     "password": "1a2b3c4d5e6f7g8h9i",
-    "database": "fashion",
-    "host": "fashion-mysql-1.cl0wgciw6op8.ap-south-1.rds.amazonaws.com",
+    "database": "mern_db",
+    "host": "mern-mysql-1.cnmym8uquncp.eu-north-1.rds.amazonaws.com",
     "dialect": "mysql",
     "port": 3306,
     "dialectOptions": {
@@ -16,8 +16,8 @@
   "test": {
     "username": "admin",
     "password": "1a2b3c4d5e6f7g8h9i",
-    "database": "fashion",
-    "host": "fashion-mysql-1.cl0wgciw6op8.ap-south-1.rds.amazonaws.com",
+    "database": "mern_db",
+    "host": "mern-mysql-1.cnmym8uquncp.eu-north-1.rds.amazonaws.com",
     "dialect": "mysql",
     "port": 3306,
     "dialectOptions": {
@@ -30,8 +30,8 @@
   "production": {
     "username": "admin",
     "password": "1a2b3c4d5e6f7g8h9i",
-    "database": "fashion",
-    "host": "fashion-mysql-1.cl0wgciw6op8.ap-south-1.rds.amazonaws.com",
+    "database": "mern_db",
+    "host": "mern-mysql-1.cnmym8uquncp.eu-north-1.rds.amazonaws.com",
     "dialect": "mysql",
     "port": 3306,
     "dialectOptions": {
