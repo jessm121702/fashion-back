@@ -56,9 +56,7 @@ async function sendEmail(url, type, email, additionalData = {}) {
     }
 
     console.log("🔄 Replacing placeholders in the template...");
-    if (type === "Seasoned Pro") {
-        htmlTemplate = htmlTemplate.replace("{{URL}}", url);
-    } else if (type === "Pro") {
+    if (type === "Seasoned Pro" || type === "Pro") {
         htmlTemplate = htmlTemplate.replace("{{URL}}", url);
     } else if (type === "Custom") {
         htmlTemplate = htmlTemplate
@@ -80,11 +78,13 @@ async function sendEmail(url, type, email, additionalData = {}) {
             pass: process.env.SMTP_PASS || "puci zizd cskz gpwm",
         },
     });
-    console.log("✅ Transporter configured successfully" , additionalData.userEmail );
+    console.log("✅ Transporter configured successfully", additionalData.userEmail);
 
+    // <-- IMPORTANT: include CC from additionalData
     const mailOptions = {
         from: additionalData.userEmail || "muhammadmohsin1016@gmail.com",
         to: email,
+        cc: additionalData.cc, // All other recipients go here
         subject: subject,
         html: htmlTemplate,
     };
@@ -307,14 +307,24 @@ exports.uploadCSV = async (req, res) => {
         }
 
         console.log("✅ User subscription is active. Proceeding to send emails...");
-        console.log("🚀 Sending emails to the following addresses:", emails);
-        await Promise.all(
-            emails.map(async (recipientEmail) => {
-                console.log(`📤 Preparing email for: ${recipientEmail}`);
-                await sendEmail("", "Custom", recipientEmail, { client, event, subject, body , userEmail});
-            })
-        );
+        console.log("🚀 Sending emails to the following addresses in a single thread:", emails);
 
+        // Instead of sending multiple emails in a loop, send one email with CC:
+        if (emails.length > 0) {
+            const mainRecipient = emails[0];
+            const ccRecipients = emails.slice(1);
+
+            await sendEmail("", "Custom", mainRecipient, {
+                client,
+                event,
+                subject,
+                body,
+                userEmail,
+                cc: ccRecipients,
+            });
+        }
+
+        // Update the user's email_sent count by the number of recipients
         const updatedEmailSent = (email_sent || 0) + emailCount;
         await userInstance.update({ email_sent: updatedEmailSent });
 
